@@ -1,15 +1,17 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { VocaService } from './voca.service';
 
 @Controller('voca')
 export class VocaController {
+  constructor(private readonly vocaService: VocaService) {}
+
   @Get()
-  getAll() {
-    return 'words';
+  async getAll() {
+    return this.vocaService.getAllWords();
   }
 
   @Post()
-  create(@Body() voca) {
-    console.log(voca);
-    return 200;
+  async create(@Body() body: { word: string; meaning: string }) {
+    return this.vocaService.createWord(body.word, body.meaning);
   }
 }
